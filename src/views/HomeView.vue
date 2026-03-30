@@ -206,9 +206,6 @@ const coaches = [
   { nombre: 'Yesmin Yabur', especialidad: 'Movilidad / Yoga Flow / Rehabilitación' , foto: fotoYesmin },
   { nombre: 'Dany Fit', especialidad: 'Powerlifting / Alto Rendimiento' },
   { nombre: 'Carlos Ruiz', especialidad: 'Nutrición Deportiva / Bloques' },
-  { nombre: 'Yesmin Yabur', especialidad: 'Movilidad / HIIT / Yoga Flow' },
-  { nombre: 'Dany Fit', especialidad: 'Powerlifting / Alto Rendimiento' },
-  { nombre: 'Carlos Ruiz', especialidad: 'Nutrición Deportiva / Bloques' }
 ];
 </script>
 
