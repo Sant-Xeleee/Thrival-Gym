@@ -126,7 +126,7 @@
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 content-to-reveal">
-      <div v-for="coach in coaches" :key="coach.nombre" class="group relative overflow-hidden rounded-3xl bg-slate-950 border border-slate-800 transition-all duration-500 hover:border-emerald-500/50 hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-950/30 transform hover:scale-105 coach-card-3d">
+      <div v-for="coach in coaches" :key="coach.nombre" class="group relative overflow-hidden rounded-3xl bg-slate-950 border border-slate-800 transition-all duration-500 hover:border-emerald-500/50 hover:-translate-y-2 hover:shadow-2xl hover:shadow-emerald-950/30 transform hover:scale-105 coach-card-3d cursor-pointer" @click="activeCoachCard === coach.nombre ? activeCoachCard = null : activeCoachCard = coach.nombre">
         
         <div class="aspect-[4/5] bg-slate-800 relative overflow-hidden">
           <img 
@@ -139,8 +139,8 @@
             Foto Coach
           </div>
           
-          <div class="absolute inset-0 bg-slate-950/0 group-hover:bg-slate-950/70 transition-colors duration-500 flex items-center justify-center">
-            <button @click="openModal(coach)" class="opacity-0 scale-90 group-hover:opacity-100 group-hover:scale-100 transition-all duration-500 ease-out bg-gradient-to-r from-emerald-500 to-emerald-400 text-slate-950 font-bold py-3 px-6 rounded-lg shadow-xl text-sm hover:shadow-2xl hover:shadow-emerald-500/50 transform hover:-translate-y-1">
+          <div class="coaching-overlay absolute inset-0 transition-all duration-500 flex items-center justify-center" :class="activeCoachCard === coach.nombre ? 'active' : ''">
+            <button @click.stop="openModal(coach)" class="bg-gradient-to-r from-emerald-500 to-emerald-400 text-slate-950 font-bold py-3 px-6 rounded-lg shadow-xl text-sm hover:shadow-2xl hover:shadow-emerald-500/50 transform hover:-translate-y-1 transition-all duration-500">
               Ver Perfil
             </button>
           </div>
@@ -459,6 +459,7 @@ const newsletterEmail = ref('');
 const isSubscribing = ref(false);
 const subscriptionSuccess = ref(false);
 const particles = ref([]);
+const activeCoachCard = ref(null);
 
 // Efecto Typing
 const typeText = () => {
@@ -482,6 +483,13 @@ onMounted(() => {
   // Parallax effect
   window.addEventListener('scroll', () => {
     parallaxOffset.value = window.scrollY * 0.5;
+  });
+
+  // Close active coach card when clicking outside on mobile
+  document.addEventListener('click', (e) => {
+    if (activeCoachCard.value && !e.target.closest('.coach-card-3d')) {
+      activeCoachCard.value = null;
+    }
   });
   
   // Opciones del observador: el 15% de la sección debe ser visible para activarse
@@ -972,5 +980,48 @@ const allTestimonials = computed(() => {
   background-color: rgba(16, 185, 129, 0.2);
   padding: 0.1rem 0.5rem;
   border-radius: 0.375rem;
+}
+
+/* Coach Card Button Visibility */
+.coach-card-3d .coaching-overlay {
+  background-color: rgba(15, 23, 42, 0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.coach-card-3d .coaching-overlay button {
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+}
+
+/* Mobile: Show on click (active class) */
+@media (max-width: 767px) {
+  .coach-card-3d .coaching-overlay.active {
+    background-color: rgba(15, 23, 42, 0.7) !important;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .coach-card-3d .coaching-overlay.active button {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+}
+
+/* Desktop: Show on hover */
+@media (min-width: 768px) {
+  .coach-card-3d:hover .coaching-overlay {
+    background-color: rgba(15, 23, 42, 0.7) !important;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .coach-card-3d:hover .coaching-overlay button {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
 }
 </style>
