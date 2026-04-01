@@ -7,7 +7,11 @@ const router = createRouter({
     { path: '/', name: 'home', component: HomeView },
     { path: '/login', name: 'login', component: () => import('../views/LoginView.vue') },
     { path: '/progreso', name: 'progreso', component: () => import('../views/ProgresoView.vue') },
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    // Siempre hacer scroll al inicio cuando cambias de ruta
+    return { top: 0, behavior: 'smooth' };
+  }
 })
 
 export default router

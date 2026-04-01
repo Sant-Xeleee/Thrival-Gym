@@ -1,9 +1,9 @@
 <template>
   <div class="min-h-screen bg-slate-950 selection:bg-emerald-500 selection:text-slate-950">
-    <nav class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800 px-6 md:px-12 py-4 flex justify-between items-center">
+    <nav class="sticky top-0 z-50 px-6 md:px-12 py-4 flex justify-between items-center transition-all duration-300" :class="isScrolled ? 'bg-slate-950/95 shadow-2xl shadow-emerald-500/10' : 'bg-slate-950/80'" style="backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid;" :style="{borderColor: isScrolled ? 'rgba(16, 185, 129, 0.2)' : 'rgba(30, 41, 59, 1)'}">
       
-      <div class="text-white font-black text-2xl tracking-tighter">
-        THRIVAL <span class="text-emerald-500">MID</span>
+      <div class="text-white font-black text-2xl tracking-tighter transition-all duration-300" :class="isScrolled ? 'text-emerald-400' : 'text-white'">
+        THRIVAL <span :class="isScrolled ? 'text-emerald-300' : 'text-emerald-500'" class="transition-colors duration-300">MID</span>
       </div>
 
       <button @click="isMenuOpen = !isMenuOpen" class="md:hidden text-white p-2">
@@ -32,8 +32,8 @@
       leave-from-class="opacity-100 translate-y-0"
       leave-to-class="opacity-0 -translate-y-4"
     >
-      <div v-if="isMenuOpen" class="md:hidden bg-slate-900 border-b border-slate-800 p-6 space-y-4 absolute w-full z-40">
-        <router-link @click="isMenuOpen = false" to="/" class="block text-slate-300 text-lg font-bold">Inicio</router-link>
+      <div v-if="isMenuOpen" class="md:hidden bg-slate-900 border-b border-slate-800 p-6 space-y-4 fixed w-full z-60 top-16 left-0">
+        <router-link @click="isMenuOpen = false" to="/" class="block text-slate-300 text-lg font-bold hover:text-emerald-400 transition-colors">Inicio</router-link>
         <router-link @click="isMenuOpen = false" to="/progreso" class="block text-slate-300 text-lg font-bold">Progreso</router-link>
         <router-link @click="isMenuOpen = false" to="/login" class="block bg-emerald-500 text-slate-950 text-center py-3 rounded-xl font-bold">Acceso Clientes</router-link>
       </div>
@@ -56,8 +56,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 // Estado para controlar el menú móvil
 const isMenuOpen = ref(false);
+const isScrolled = ref(false);
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > 50;
+};
 </script>
