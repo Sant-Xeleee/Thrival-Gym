@@ -1,26 +1,55 @@
 <template>
   <div class="min-h-screen bg-slate-950 selection:bg-emerald-500 selection:text-slate-950">
-    <nav class="sticky top-0 z-50 px-6 md:px-12 py-4 flex justify-between items-center transition-all duration-300" :class="isScrolled ? 'bg-slate-950/95 shadow-2xl shadow-emerald-500/10' : 'bg-slate-950/80'" style="backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid;" :style="{borderColor: isScrolled ? 'rgba(16, 185, 129, 0.2)' : 'rgba(30, 41, 59, 1)'}">
+    <nav class="sticky top-0 z-50 backdrop-blur-xl bg-gradient-to-r from-slate-950/90 via-slate-900/85 to-slate-950/90 border-b transition-all duration-500" :class="isScrolled ? 'border-emerald-500/30 shadow-2xl shadow-emerald-950/40' : 'border-slate-800/30 shadow-lg shadow-slate-950/20'">
       
-      <div class="text-white font-black text-2xl tracking-tighter transition-all duration-300" :class="isScrolled ? 'text-emerald-400' : 'text-white'">
-        THRIVAL <span :class="isScrolled ? 'text-emerald-300' : 'text-emerald-500'" class="transition-colors duration-300">MID</span>
-      </div>
-
-      <button @click="isMenuOpen = !isMenuOpen" class="md:hidden text-white p-2 rounded-lg hover:bg-slate-800/50 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/20 group">
-        <svg v-if="!isMenuOpen" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 group-hover:text-emerald-400 transition-all duration-300 transform group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-        </svg>
-        <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-400 transition-all duration-300 transform scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-
-      <div class="hidden md:flex space-x-8 items-center">
-        <router-link to="/" class="text-slate-400 hover:text-emerald-400 transition-colors font-medium">Inicio</router-link>
-        <router-link to="/progreso" class="text-slate-400 hover:text-emerald-400 transition-colors font-medium">Progreso</router-link>
-        <router-link to="/login" class="bg-emerald-500 text-slate-950 px-6 py-2 rounded-lg font-bold hover:bg-emerald-400 transition-all">
-          Acceso Clientes
+      <!-- Fondo decorativo gradiente -->
+      <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/5 via-transparent to-emerald-500/5 pointer-events-none"></div>
+      
+      <div class="relative px-6 md:px-16 py-5 flex justify-between items-center max-w-7xl mx-auto">
+        
+        <!-- Logo mejorado -->
+        <router-link to="/" class="group cursor-pointer flex items-center gap-3">
+          <div class="relative">
+            <div class="absolute inset-0 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl blur-lg opacity-0 group-hover:opacity-70 transition-all duration-300"></div>
+            <img :src="thrivalIcon" class="logo-icon relative w-45 h-13 rounded-lg group-hover:shadow-2xl group-hover:shadow-emerald-500/50 transition-all duration-300 transform group-hover:scale-110" alt="Thrival Icon">
+          </div>
         </router-link>
+
+        <!-- Botón menú móvil mejorado -->
+        <button @click="isMenuOpen = !isMenuOpen" class="md:hidden text-white p-2.5 rounded-xl hover:bg-emerald-500/10 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/20 group border border-transparent hover:border-emerald-500/30 flex flex-col gap-1.5" :class="isMenuOpen ? 'menu-open' : ''">
+          <span class="hamburger-line block w-6 h-0.5 bg-white transition-all duration-300" :style="isMenuOpen ? { transform: 'rotate(45deg) translateY(12px)' } : {}"></span>
+          <span class="hamburger-line block w-6 h-0.5 bg-white transition-all duration-300" :style="isMenuOpen ? { opacity: '0' } : {}"></span>
+          <span class="hamburger-line block w-6 h-0.5 bg-white transition-all duration-300" :style="isMenuOpen ? { transform: 'rotate(-45deg) translateY(-10px)' } : {}"></span>
+        </button>
+
+        <!-- Desktop Navigation mejiorada -->
+        <div class="hidden md:flex items-center gap-2">
+          <!-- Links con efectos -->
+          <router-link to="/" class="nav-link px-4 py-2.5 rounded-lg text-slate-300 hover:text-white font-medium transition-all duration-300 hover:bg-emerald-500/10 border border-transparent hover:border-emerald-500/30 relative group">
+            <span class="relative z-10">Inicio</span>
+            <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </router-link>
+
+          <router-link to="/progreso" class="nav-link px-4 py-2.5 rounded-lg text-slate-300 hover:text-white font-medium transition-all duration-300 hover:bg-emerald-500/10 border border-transparent hover:border-emerald-500/30 relative group">
+            <span class="relative z-10">Progreso</span>
+            <div class="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </router-link>
+
+          <!-- Separador elegante -->
+          <div class="w-px h-6 bg-gradient-to-b from-transparent via-emerald-500/30 to-transparent mx-2"></div>
+
+          <!-- Botón CTA premium -->
+          <router-link to="/login" class="cta-button ml-2 px-6 py-2.5 rounded-xl font-bold text-slate-950 transition-all duration-300 relative group overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-emerald-400 to-emerald-500 group-hover:from-emerald-300 group-hover:to-emerald-400 transition-all duration-300"></div>
+            <div class="cta-shine"></div>
+            <span class="relative z-10 flex items-center gap-2">
+              <svg class="w-4 h-4 transition-transform duration-300 group-hover:scale-110" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path>
+              </svg>
+              Acceso
+            </span>
+          </router-link>
+        </div>
       </div>
     </nav>
 
@@ -116,6 +145,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import thrivalIcon from '@/assets/thrival-icon.jpg';
 
 // Estado para controlar el menú móvil
 const isMenuOpen = ref(false);
@@ -133,3 +163,125 @@ const handleScroll = () => {
   isScrolled.value = window.scrollY > 50;
 };
 </script>
+
+<style scoped>
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+
+nav {
+  animation: slideDown 0.5s ease-out;
+}
+
+/* Animación del logo */
+.logo-icon {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.logo-icon:hover {
+  animation: pulse 0.6s ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Animación de los links del navbar */
+.nav-link {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #10b981, #059669);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Animación del botón de hamburguesa */
+.hamburger-line {
+  transition: all 0.3s ease;
+}
+
+.menu-open .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translateY(12px);
+}
+
+.menu-open .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-open .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translateY(-10px);
+}
+
+/* Animación del menú móvil */
+.mobile-menu-enter-active,
+.mobile-menu-leave-active {
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-enter-from {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.mobile-menu-leave-to {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+/* Efecto de brillo en el botón CTA */
+.cta-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: shine 2s infinite;
+}
+</style>
